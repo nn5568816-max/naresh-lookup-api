@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aadhaar Format Checker API</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f7f6;
+      padding: 30px;
+      max-width: 650px;
+      margin: auto;
+    }
+    .container {
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #333;
+      margin-top: 0;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    pre {
+      background: #1e1e1e;
+      color: #00ff66;
+      padding: 15px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 14px;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Aadhaar Format Checker API</h2>
+    
+    <label for="key">API Key:</label>
+    <input type="text" id="key" placeholder="Enter API Key (e.g., MYKEY-5678)" value="MYKEY-5678" />
+
+    <label for="aadhar">12-Digit Aadhaar Number:</label>
+    <input type="text" id="aadhar" placeholder="Enter 12-digit number" />
+
+    <button onclick="checkAadhar()">Submit Request</button>
+
+    <h3>API Response Output:</h3>
+    <pre id="output">Results will appear here...</pre>
+  </div>
+
+  <script>
+    async function checkAadhar() {
+      const key = document.getElementById('key').value;
+      const aadhar = document.getElementById('aadhar').value;
+      const output = document.getElementById('output');
+
+      if (!key || !aadhar) {
+        alert("Please enter both API key and 12-digit Aadhaar Number.");
+        return;
+      }
+
+      output.textContent = "Fetching response...";
+
+      try {
+        const res = await fetch(`/api/aadhar?key=${encodeURIComponent(key)}&aadhar=${encodeURIComponent(aadhar)}`);
+        const data = await res.json();
+        output.textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        output.textContent = "Error fetching response from API.";
+      }
+    }
+  </script>
+
+</body>
+</html>
